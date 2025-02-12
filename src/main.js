@@ -36,9 +36,9 @@ function initLighting() {
   const ambientLight = new THREE.AmbientLight(0xffffff);
   scene.add(pointLight, ambientLight);
 
-  const lightHelper = new THREE.PointLightHelper(pointLight);
-  const gridHelper = new THREE.GridHelper(200, 50);
-  scene.add(lightHelper, gridHelper);
+  // const lightHelper = new THREE.PointLightHelper(pointLight);
+  // const gridHelper = new THREE.GridHelper(200, 50);
+  // scene.add(lightHelper, gridHelper);
 }
 initLighting();
 
@@ -71,11 +71,27 @@ const moon = new THREE.Mesh(
     normalMap: normalTexture,
   })
 );
+moon.position.z = 30;
+moon.position.x = -10;
 scene.add(moon);
 
 Array(200)
   .fill()
   .forEach(() => addStar());
+
+function moveCamera() {
+  // Determine users current scroll position
+  const t = document.body.getBoundingClientRect().top;
+
+  moon.rotation.x += 0.05;
+  moon.rotation.y += 0.075;
+  moon.rotation.z += 0.05;
+
+  camera.position.x = t * -0.002;
+  camera.position.y = t * -0.002;
+  camera.position.z = t * -0.01;
+}
+document.body.onscroll = moveCamera;
 
 function animate() {
   requestAnimationFrame(animate);
