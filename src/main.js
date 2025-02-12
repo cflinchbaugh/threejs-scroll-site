@@ -1,3 +1,4 @@
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 import "./style.css";
 import * as THREE from "three";
 
@@ -16,4 +17,42 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
 
-renderer.render(scene, camera);
+function createTorus() {
+  const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xff6347,
+  });
+  const torus = new THREE.Mesh(geometry, material);
+  return torus;
+}
+const torus = createTorus();
+scene.add(torus);
+
+function initLighting() {
+  const pointLight = new THREE.PointLight(0xffffff, 10);
+  pointLight.position.set(6, 3, 10);
+  pointLight.castShadow = true;
+
+  const ambientLight = new THREE.AmbientLight(0xffffff);
+  scene.add(pointLight, ambientLight);
+
+  const lightHelper = new THREE.PointLightHelper(pointLight);
+  const gridHelper = new THREE.GridHelper(200, 50);
+  scene.add(lightHelper, gridHelper);
+}
+initLighting();
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  torus.rotation.x += 0.01;
+  torus.rotation.y += 0.005;
+  torus.rotation.z += 0.01;
+
+  controls.update();
+
+  renderer.render(scene, camera);
+}
+animate();
