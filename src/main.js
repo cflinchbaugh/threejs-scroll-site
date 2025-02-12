@@ -29,7 +29,7 @@ const torus = createTorus();
 scene.add(torus);
 
 function initLighting() {
-  const pointLight = new THREE.PointLight(0xffffff, 10);
+  const pointLight = new THREE.PointLight(0xffffff, 1000);
   pointLight.position.set(6, 3, 10);
   pointLight.castShadow = true;
 
@@ -43,6 +43,24 @@ function initLighting() {
 initLighting();
 
 const controls = new OrbitControls(camera, renderer.domElement);
+
+const starGeometry = new THREE.SphereGeometry(0.25, 24, 24);
+const starMaterial = new THREE.MeshStandardMaterial({
+  color: 0xffffff,
+});
+
+function addStar() {
+  const star = new THREE.Mesh(starGeometry, starMaterial);
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200)
+  .fill()
+  .forEach(() => addStar());
 
 function animate() {
   requestAnimationFrame(animate);
