@@ -16,14 +16,12 @@ canvas {
 }
 
 main {
-  width: 100vw;
   color: white;
   z-index: 99;
   position: absolute;
-  width: 50%;
+  width: 70%;
   margin: 0px auto;
   padding: 120px 0px;
-
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 }
@@ -52,12 +50,17 @@ header {
 }
 
 section {
-  grid-column: 2 / 8;
+  grid-column: 2 / 12;
   padding: 1rem;
   background: var(--dark-bg);
   font-size: 1.25rem;
   line-height: 1.5;
   margin-bottom: var(--spacing);
+}
+@media (min-width: 768px) {
+  section {
+    grid-column: 2 / 10;
+  }
 }
 
 blockquote {
